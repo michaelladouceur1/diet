@@ -17,6 +17,8 @@ class Data():
 		self.con_cur()
 		self.read_xl()
 		self.validate_db()
+		self.insert_data()
+		self.print_data()
 		self.close_con()
 
 	def con_cur(self):
@@ -40,6 +42,16 @@ class Data():
 			print('An error occured:\n', e)
 		else:
 			print('Data was inserted into '+self.filename+'.db/'+self.tablename)
+
+	def print_data(self):
+		pd.read_sql('SELECT * FROM ingredients', self.conn)
+
+	def insert_data(self):
+		cur = self.conn.cursor()
+		cur.execute('SELECT * FROM ingredients')
+		names = [description[0] for description in cur.description]
+		for name in names:
+			
 
 	def close_con(self):
 		self.conn.close()
